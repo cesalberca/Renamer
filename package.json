@@ -1,12 +1,14 @@
 {
   "name": "renamer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Renames files replacing spaces with dashes and in lower case inside the rename folder to the renamed folder.",
   "main": "renamer.js",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "",
+  "author": "César Alberca",
+  "email": "cesalberca@gmail.com",
+  "url": "cesalberca.es",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^3.1.0",
