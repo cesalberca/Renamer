@@ -1,3 +1,6 @@
+'use strict'
 var renamer = require('./renamer')
+const src = './rename/'
+const dest = './renamed/'
 
-renamer.init('./rename/', './renamed/')
+renamer.init(src, dest)
