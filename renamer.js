@@ -5,7 +5,20 @@ module.exports = (function () {
 
   function init (src, dest) {
     // Empties the directory and after it fires the rename files function
-    removeFiles(dest, src, renameFiles)
+    removeFiles(dest, src, dest, renameFiles)
+  }
+
+  // Removes files inside a directory
+  function removeFiles (directory, src, dest, renameFiles) {
+    fs.emptyDir(directory, function (err) {
+      if (err) {
+        throw err
+      } else {
+        console.log(`${directory} is now empty`)
+        // Renaming should start after the directory is emptied
+        renameFiles(src, dest)
+      }
+    })
   }
 
   // Rename the files inside src and puts them on dest
@@ -17,18 +30,6 @@ module.exports = (function () {
         files.forEach(function (file) {
           copyFile(file, getNewName(file), src, dest)
         })
-      }
-    })
-  }
-
-  // Removes files inside a directory
-  function removeFiles (directory, src, callback) {
-    fs.emptyDir(directory, function (err) {
-      if (err) {
-        throw err
-      } else {
-        console.log(`${directory} is now empty`)
-        callback(src, directory)
       }
     })
   }
