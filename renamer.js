@@ -12,28 +12,33 @@ module.exports = (function () {
   function renameFiles (src, dest) {
     fs.readdir(src, function (err, files) {
       if (err) {
-        console.log(err)
+        throw err
       } else {
         files.forEach(function (file) {
-          fs.copy(path.resolve(__dirname, src, file), path.resolve(__dirname, dest, getNewName(file)), function (err) {
-            if (err) {
-              throw err
-            } else {
-              console.log(`${file} - ${getNewName(file)}`)
-            }
-          })
+          copyFile(file, getNewName(file), src, dest)
         })
       }
     })
   }
 
+  // Removes files inside a directory
   function removeFiles (directory, src, callback) {
     fs.emptyDir(directory, function (err) {
       if (err) {
-        console.log(err)
+        throw err
       } else {
         console.log(`${directory} is now empty`)
         callback(src, directory)
+      }
+    })
+  }
+
+  function copyFile (filename, newFilename, src, dest) {
+    fs.copy(path.resolve(__dirname, src, filename), path.resolve(__dirname, dest, newFilename), function (err) {
+      if (err) {
+        throw err
+      } else {
+        console.log(`${filename} - ${newFilename}`)
       }
     })
   }
