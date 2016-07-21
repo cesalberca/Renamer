@@ -2,6 +2,7 @@
 module.exports = (function () {
   var fs = require('fs-extra')
   var path = require('path')
+  var stringUtils = require('./stringUtils')
 
   function init (src, dest) {
     // Empties the directory and after it fires the rename files function
@@ -28,7 +29,7 @@ module.exports = (function () {
         throw err
       } else {
         files.forEach(function (file) {
-          copyFile(file, getNewName(file), src, dest)
+          copyFile(file, stringUtils.getSafeName(file), src, dest)
         })
       }
     })
@@ -43,29 +44,6 @@ module.exports = (function () {
         console.log(`${filename} - ${newFilename}`)
       }
     })
-  }
-
-  // Gets the final name, without spaces, without special characters and in lower case
-  function getNewName (string) {
-    var withoutSpecialCharacters = replaceSpecialCharacters(replaceSpanishN(string))
-    return replaceSpacesWithDashes(removeExtraSpaces(withoutSpecialCharacters)).toLowerCase()
-  }
-
-  function replaceSpecialCharacters (string) {
-    var regex = /[^a-zA-Z0-9_\-\.\s]/g
-    return string.replace(regex, '')
-  }
-
-  function replaceSpanishN (string) {
-    return string.replace(/[ñ]/g, 'n')
-  }
-
-  function removeExtraSpaces (string) {
-    return string.replace(/\s{2,}/g, ' ')
-  }
-
-  function replaceSpacesWithDashes (string) {
-    return string.replace(/ /g, '-')
   }
 
   return {
