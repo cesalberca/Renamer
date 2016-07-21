@@ -8,14 +8,14 @@ module.exports = (function () {
     removeFiles(dest, src, dest, renameFiles)
   }
 
-  // Removes files inside a directory
+  // Removes files inside a directory. Makes a callback to renameFiles function, thats why we need src and dest arguments on removeFiles, to pass them to the callback.
   function removeFiles (directory, src, dest, renameFiles) {
     fs.emptyDir(directory, function (err) {
       if (err) {
         throw err
       } else {
         console.log(`${directory} is now empty`)
-        // Renaming should start after the directory is emptied
+        // Renaming should start after the directory is emptied, this makes a callback function.
         renameFiles(src, dest)
       }
     })
@@ -34,6 +34,7 @@ module.exports = (function () {
     })
   }
 
+  // Copies a file given a filename a new filename a source and a destination.
   function copyFile (filename, newFilename, src, dest) {
     fs.copy(path.resolve(__dirname, src, filename), path.resolve(__dirname, dest, newFilename), function (err) {
       if (err) {
@@ -48,16 +49,6 @@ module.exports = (function () {
   function getNewName (string) {
     return replaceSpaces(removeExtraSpaces(string)).toLowerCase()
   }
-
-  // Gets extension given the filename
-  // function getExtension (filename) {
-  //   var ext = path.extname(filename || '').split('.')
-  //   return ext[ext.length - 1]
-  // }
-  //
-  // function removeExtension (filename) {
-  //   return filename.replace(/\.[^/.]+$/, '')
-  // }
 
   function removeExtraSpaces (string) {
     return string.replace(/\s{2,}/g, ' ')
