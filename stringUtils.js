@@ -3,7 +3,8 @@ module.exports = (function () {
   // Gets the final name, without spaces, without special characters and in lower case
   function getSafeName (string) {
     var withoutSpecialCharacters = replaceSpecialCharacters(replaceSpanishN(string))
-    return replaceSpacesWithDashes(removeExtraSpaces(withoutSpecialCharacters)).toLowerCase()
+    var withoutSpaces = replaceSpacesWithDashes(removeExtraSpaces(withoutSpecialCharacters))
+    return removeConsecutiveDashes(withoutSpaces).toLowerCase()
   }
 
   function replaceSpecialCharacters (string) {
@@ -21,6 +22,10 @@ module.exports = (function () {
 
   function replaceSpacesWithDashes (string) {
     return string.replace(/ /g, '-')
+  }
+
+  function removeConsecutiveDashes (string) {
+    return string.replace(/\-{2,}/g, '-')
   }
 
   return {
